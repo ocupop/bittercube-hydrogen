@@ -42,9 +42,9 @@ export default function Home() {
   return (
     <Layout>
       <PatternHero content={HeaderText} />
-      <Suspense>
+      <>
         <CollectionsNav />
-      </Suspense>
+      </>
       <div className="container">
         <div className="grid grid-cols-1 gap-6 pb-16 md:grid-cols-2">
           <div>

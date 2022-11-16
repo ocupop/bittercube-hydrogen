@@ -24,7 +24,7 @@ export function Layout({ children }) {
 
   return (
     <>
-    <Suspense>
+    <>
       <Seo
         type="defaultSeo"
         data={{
@@ -35,7 +35,7 @@ export function Layout({ children }) {
       <Head>
         <meta name="description" content={customSeo.description} />
       </Head>
-    </Suspense>
+    </>
 
     <div className="relative flex flex-col min-h-screen antialiased bg-neutral-50">
         <main role="main" id="mainContent" className="flex-grow bg-paper">

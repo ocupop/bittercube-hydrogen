@@ -10,7 +10,7 @@ import {Suspense} from 'react';
 
 function App() {
   return (
-    <Suspense fallback={null}>
+    <>
       <ShopifyProvider>
         <CartProvider>
           <Router>
@@ -18,7 +18,7 @@ function App() {
           </Router>
         </CartProvider>
       </ShopifyProvider>
-    </Suspense>
+    </>
   );
 }
 
