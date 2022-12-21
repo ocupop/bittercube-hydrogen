@@ -101,6 +101,8 @@ function CartCheckoutActions() {
     }
     navigate(url)
   }
+  const url = cookies['__gclid'] ? `${checkoutUrl}/?gclid=${cookies['__gclid']?.id}` : checkoutUrl
+
   return (
     <>
       <div className="flex flex-col items-center gap-4 py-6 md:mt-2">
@@ -114,7 +116,7 @@ function CartCheckoutActions() {
 
         <button
           type="button"
-          onClick={() => handleCheckout(`${checkoutUrl}/?gclid=${cookies['__gclid']?.id}`)}
+          onClick={() => handleCheckout(url)}
           width="full"
           className="w-full m-0 text-center btn btn-action"
         >
