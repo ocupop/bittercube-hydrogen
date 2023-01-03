@@ -46,8 +46,14 @@ const styleOptions = [
   { value: 'hot', label: 'Hot' },
   { value: 'kitchen', label: 'Kitchen' },
 ]
+const productOptions = [
+  { value: 'cocktail-cedars', label: 'Cocktail Cedars' },
+  { value: 'disco-inferno', label: 'Disco Inferno' },
+  { value: 'cardamom-seed-extract', label: 'Cardamom Seed Extract' },
+]
 
 const emptyFilters = {
+  bitters: null,
   product: null,
   season: null,
   spirit: null,
@@ -73,7 +79,7 @@ export default function CocktailsList({ allRecipes }){
     }
     setFilters(emptyFilters)
 
-    const filtered = allRecipes.filter(({ name, flavors, spirits, ingredients }) => {
+    const filtered = allRecipes.filter(({ name, flavors, spirits, ingredients, bitters }) => {
       let tags = []
       flavors?.forEach(element => {
         tags.push(element.toLowerCase())
@@ -82,6 +88,11 @@ export default function CocktailsList({ allRecipes }){
         tags.push(element.toLowerCase())
       })
       ingredients?.forEach(({ name }) => {
+        if (name) {
+          tags.push(name.toLowerCase())
+        }
+      })
+      bitters?.forEach(({ name }) => {
         if (name) {
           tags.push(name.toLowerCase())
         }
@@ -110,6 +121,11 @@ export default function CocktailsList({ allRecipes }){
       return
     }
 
+    if (filters.bitters) {
+      filterRecipesByBitters(filters.bitters)
+      return
+    }
+
     if (filters.product) {
       filterRecipesByProduct(filters.product)
       return
@@ -130,8 +146,7 @@ export default function CocktailsList({ allRecipes }){
     setRecipes(allRecipes)
   }
 
-  const filterRecipesByProduct = (selected) => {
-
+const filterRecipesByBitters = (selected) => {
     if (!selected){
       setRecipes(allRecipes)
       return
@@ -139,6 +154,19 @@ export default function CocktailsList({ allRecipes }){
     const { label } = selected
     const filteredRecipes = allRecipes.filter(({ bitters }) => {
       return bitters.filter(({ name }) => label === name).length
+    })
+    setRecipes(filteredRecipes)
+  }
+
+  const filterRecipesByProduct = (selected) => {
+
+    if (!selected){
+      setRecipes(allRecipes)
+      return
+    }
+    const { label } = selected
+    const filteredRecipes = allRecipes.filter(({ ingredients }) => {
+      return ingredients.filter(({ name }) => label === name).length
     })
     setRecipes(filteredRecipes)
   }
@@ -173,6 +201,18 @@ export default function CocktailsList({ allRecipes }){
             instanceId={useId()}
             options={bittersOptions}
             placeholder={'Bitters'}
+            classNamePrefix="select"
+            isClearable={true}
+            value={filters.bitters}
+            onChange={((selected) => {
+              setActiveFilter('bitters')
+              setFilters({...emptyFilters, bitters: selected})
+            })}
+          />
+          <Select
+            instanceId={useId()}
+            options={productOptions}
+            placeholder={'Other Products'}
             classNamePrefix="select"
             isClearable={true}
             value={filters.product}
